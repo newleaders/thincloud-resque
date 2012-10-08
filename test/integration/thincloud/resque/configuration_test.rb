@@ -9,6 +9,7 @@ module Thincloud
       # defaults
       it { config.must_be_kind_of ActiveSupport::OrderedOptions }
       it { config.redis_url.must_equal "unix:///tmp/redis.sock" }
+      it { config.redis_driver.must_equal "ruby" }
       it { config.web_username.must_equal "thincloud-resque" }
       it { config.web_password.must_equal "thincloud-resque" }
       it { config.mailer.must_equal true }
