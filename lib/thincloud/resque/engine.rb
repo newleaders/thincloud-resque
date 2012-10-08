@@ -34,7 +34,7 @@ module Thincloud
 
         ::Resque.redis = ::Redis.new({
           url:    options.redis_url,
-          driver: options.redis
+          driver: options.redis_driver
         })
 
         ::Resque.redis.namespace = options.redis_namespace
