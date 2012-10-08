@@ -19,8 +19,9 @@ module Thincloud
         username  = ENV["RESQUE_WEB_USERNAME"] || "thincloud-resque"
         password  = ENV["RESQUE_WEB_PASSWORD"] || "thincloud-resque"
 
-        options.redis_url       ||= { url: url }
+        options.redis_url       ||= url
         options.redis_namespace ||= "resque:#{app_name}:#{rails_env}"
+        options.redis_driver    ||= "ruby"
         options.web_username    ||= username
         options.web_password    ||= password
         options.mailer          = true if options.mailer.nil?
@@ -28,11 +29,14 @@ module Thincloud
       end
 
       initializer "thincloud.resque.environment" do |app|
-        require "redis/connection/hiredis"
         require "redis"
         require "resque"
 
-        ::Resque.redis = ::Redis.new(options.redis_url)
+        ::Resque.redis = ::Redis.new({
+          url:    options.redis_url,
+          driver: options.redis
+        })
+
         ::Resque.redis.namespace = options.redis_namespace
       end
 

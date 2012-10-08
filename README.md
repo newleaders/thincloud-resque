@@ -50,6 +50,7 @@ Thincloud::Resque configuration options are available under the Rails configurat
   # Redis connection details
   config.thincloud.resque.redis_url       = "unix:///tmp/redis.sock"
   config.thincloud.resque.redis_namespace = "resque:APP_NAME:RAILS_ENV"
+  config.thincloud.resque.redis_driver    = "ruby"
 
   # Authenticaiton details used for the Resque Front End
   config.thincloud.resque.web_username    = "thincloud-resque"
