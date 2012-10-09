@@ -18,7 +18,6 @@ Gem::Specification.new do |s|
   s.test_files = Dir["test/**/*"]
 
   s.add_dependency "rails", "~> 3.2.8"
-  s.add_dependency "hiredis", "~> 0.4.5"
   s.add_dependency "redis", "~> 3.0.1"
   s.add_dependency "resque", "~> 1.22.0"
   s.add_dependency "resque-cleaner", "~> 0.2.9"

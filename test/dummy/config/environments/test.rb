@@ -41,4 +41,8 @@ Dummy::Application.configure do
   ENV["RESQUE_WEB_PASSWORD"] = nil
 
   config.thincloud.resque.redis_namespace = "dummy_app_namespace"
+
+  if RUBY_ENGINE == "ruby"
+    config.thincloud.resque.redis_driver = "hiredis"
+  end
 end

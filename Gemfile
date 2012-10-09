@@ -8,8 +8,17 @@ gemspec
 # jquery-rails is used by the dummy application
 gem "jquery-rails"
 
+platforms :jruby do
+  gem "activerecord-jdbc-adapter", :require => false
+end
+
 group :test do
   platforms :ruby do
+    gem "hiredis", "~> 0.4.5"
     gem "sqlite3"
+  end
+
+  platforms :jruby do
+    gem "activerecord-jdbcsqlite3-adapter", :require => false
   end
 end
