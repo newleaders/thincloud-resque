@@ -5,6 +5,11 @@ require 'rails/all'
 Bundler.require
 require "thincloud-resque"
 
+# clear the environment variables before our tests
+ENV["REDIS_URL"]           = nil
+ENV["RESQUE_WEB_USERNAME"] = nil
+ENV["RESQUE_WEB_PASSWORD"] = nil
+
 module Dummy
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

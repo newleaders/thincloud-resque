@@ -6,7 +6,7 @@ Rails Engine to provide Resque support for Thincloud applications.
 
 The Thincloud::Resque engine:
 
-* Manages all the Resque (and Redis) dependencies for your application
+* Manages all of the Resque (and Redis) dependencies for your application
 * Initializes the Redis connection and namespace for Resque
 * Configures the Resque Front End to use HTTP Basic authentication at `/admin/resque`
 * Optionally configures `resque_mailer`
@@ -43,28 +43,25 @@ $ gem install thincloud-resque
 
 ### Configuration
 
-Thincloud::Resque configuration options are available under the Rails configuration object. Available options and their default values:
+Thincloud::Resque configuration options are available to customize the engine behavior. Available options and their default values:
 
 ```ruby
-  # ...
   # Redis connection details
-  config.thincloud.resque.redis_url       = "unix:///tmp/redis.sock"
-  config.thincloud.resque.redis_namespace = "resque:APP_NAME:RAILS_ENV"
-  config.thincloud.resque.redis_driver    = "ruby"
+  redis_url         = "unix:///tmp/redis.sock"
+  redis_namespace   = "resque:APP_NAME:RAILS_ENV"
+  redis_driver      = "ruby"  # make sure to include the gem for your driver
 
   # Authenticaiton details used for the Resque Front End
-  config.thincloud.resque.web_username    = "thincloud-resque"
-  config.thincloud.resque.web_password    = "thincloud-resque"
+  web_username      = "thincloud-resque"
+  web_password      = "thincloud-resque"
 
   # Option to configure Resque::Mailer
-  config.thincloud.resque.mailer          = true
-  config.thincloud.resque.mailer_excluded_environments = []
-  #...
+  mailer            = true  # configures Resque::Mailer
+  mailer_excluded_environments = []
 ```
+#### Environment Variables
 
-_Note: this is how they would look when added to your application's config block_
-
-By default, several of the options will default to environment variables when found.
+Several of the options will use environment variables when found.
 
 ```
   redis_url    -> ENV["REDIS_URL"]
@@ -72,11 +69,43 @@ By default, several of the options will default to environment variables when fo
   web_password -> ENV["RESQUE_WEB_PASSWORD"]
 ```
 
+#### Configuration Block
+
+The `Thincloud::Resque` module accepts a `configure` block that accepts the same options listed above. This block can be put into an initializer or inside of a `config/environments` file.
+
+```ruby
+  Thincloud::Resque.configure do |config|
+    config.redis_url       = "unix:///tmp/my_redis.sock"
+    config.redis_namespace = "my_redis_namespace"
+    config.redis_driver    = "hiredis"
+    # ...
+  end
+```
+
+#### Rails Configuration
+
+You can also access the configuration via the Rails configuration object. In fact, the engine uses the Rails config as storage when the block syntax is used. The `Thincloud::Resque::Configuration` object is made available under `config.thincloud.resque`. You can access this configuration in `config/application.rb` or in your `config/environments` files.
+
+```ruby
+  # ...
+  config.thincloud.resque.redis_url       = "unix:///tmp/redis.sock"
+  config.thincloud.resque.redis_namespace = "my_config_namespace"
+  config.thincloud.resque.redis_driver    = "hiredis"
+  #...
+```
+
+_Note: Configuration values take precendence over environment variables._
+
 ### Generator
 
-Run the generator to optionally add the Capistrano recipe for Resque Front End assets and to add an entry to the Procfile. These steps are only performed if the files are found.
+The generator will:
 
-* Invoke the generator:
+* Add a Capistrano recipe to make Resque web assets available to the released application. The recipe is added if both `Capfile` and `lib/recipes` are found.
+
+* Add a `worker` entry to the Procfile if found.
+
+
+Invoke the generator:
 
 ```
 $ rails generate thincloud:resque

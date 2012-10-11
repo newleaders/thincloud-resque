@@ -4,28 +4,23 @@ module Thincloud
     class Engine < ::Rails::Engine
       attr_accessor :options
 
-      config.thincloud        = ActiveSupport::OrderedOptions.new
-      config.thincloud.resque = ActiveSupport::OrderedOptions.new
+      # initialize the configuration so it is available during rails init
+      ActiveSupport.on_load :before_configuration do
+        app_name  = Rails.application.class.name.deconstantize.underscore
+        rails_env = Rails.env || "development"
 
-      # convenience method for engine options / configuration
-      def options
-        config.thincloud.resque
+        unless config.respond_to? :thincloud
+          config.thincloud = ActiveSupport::OrderedOptions.new
+        end
+
+        config.thincloud.resque ||= Thincloud::Resque.configure do |c|
+          c.redis_namespace = "resque:#{app_name}:#{rails_env}"
+        end
       end
 
-      initializer "thincloud.resque.set_options" do |app|
-        app_name  = app.class.name.deconstantize.underscore
-        rails_env = ENV["RAILS_ENV"] || "development"
-        url       = ENV["REDIS_URL"] || "unix:///tmp/redis.sock"
-        username  = ENV["RESQUE_WEB_USERNAME"] || "thincloud-resque"
-        password  = ENV["RESQUE_WEB_PASSWORD"] || "thincloud-resque"
-
-        options.redis_url       ||= url
-        options.redis_namespace ||= "resque:#{app_name}:#{rails_env}"
-        options.redis_driver    ||= "ruby"
-        options.web_username    ||= username
-        options.web_password    ||= password
-        options.mailer          = true if options.mailer.nil?
-        options.mailer_excluded_environments ||= []
+      # convenience method for engine options / configuration
+      def configuration
+        Thincloud::Resque.configuration
       end
 
       initializer "thincloud.resque.environment" do |app|
@@ -33,11 +28,11 @@ module Thincloud
         require "resque"
 
         ::Resque.redis = ::Redis.new({
-          url:    options.redis_url,
-          driver: options.redis_driver
+          url:    configuration.redis_url,
+          driver: configuration.redis_driver
         })
 
-        ::Resque.redis.namespace = options.redis_namespace
+        ::Resque.redis.namespace = configuration.redis_namespace
       end
 
       initializer "thincloud.resque.server" do |app|
@@ -46,17 +41,17 @@ module Thincloud
 
         # # use http basic auth for resque-web
         ::Resque::Server.use ::Rack::Auth::Basic do |username, password|
-          username = options.web_username
-          password = options.web_password
+          username = configuration.web_username
+          password = configuration.web_password
         end
 
         ::Resque::Server.set :show_exceptions, true
       end
 
       initializer "thincloud.resque.mailer" do |app|
-        excluded_envs = options.mailer_excluded_environments
+        excluded_envs = configuration.mailer_excluded_environments
 
-        if options.mailer
+        if configuration.mailer
           require "resque_mailer"
 
           ::Resque::Mailer.excluded_environments = excluded_envs
