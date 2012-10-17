@@ -35,11 +35,6 @@ Dummy::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  # clear the environment variables before our tests
-  ENV["REDIS_URL"]           = nil
-  ENV["RESQUE_WEB_USERNAME"] = nil
-  ENV["RESQUE_WEB_PASSWORD"] = nil
-
   config.thincloud.resque.redis_namespace = "dummy_app_namespace"
 
   if RUBY_ENGINE == "ruby"
