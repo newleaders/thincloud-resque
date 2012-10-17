@@ -30,7 +30,7 @@ module Thincloud
         @redis_driver    ||= "ruby"
         @web_username    ||= username
         @web_password    ||= password
-        @mailer          = true if @mailer.nil?
+        @mailer          ||= true
         @mailer_excluded_environments ||= []
       end
     end

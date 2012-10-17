@@ -28,10 +28,12 @@ module Thincloud
         before do
           Thincloud::Resque.configure do |c|
             c.web_username = "webuser"
+            c.mailer = false
           end
         end
 
         it { config.web_username.must_equal "webuser" }
+        it { config.mailer.must_equal false }
       end
     end
 
