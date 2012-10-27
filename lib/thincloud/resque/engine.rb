@@ -2,7 +2,6 @@ module Thincloud
   module Resque
     # Public: Thincloud Resque Engine
     class Engine < ::Rails::Engine
-      attr_accessor :options
 
       # initialize the configuration so it is available during rails init
       ActiveSupport.on_load :before_configuration do
