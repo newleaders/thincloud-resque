@@ -22,7 +22,7 @@ module Thincloud
         end
       end
 
-      initializer "thincloud.resque.environment" do |app|
+      initializer "thincloud.resque.environment" do
         require "redis"
         require "resque"
 
@@ -34,7 +34,7 @@ module Thincloud
         ::Resque.redis.namespace = configuration.redis_namespace
       end
 
-      initializer "thincloud.resque.server" do |app|
+      initializer "thincloud.resque.server" do
         require "resque/server"
         require "resque-cleaner"
 
@@ -47,7 +47,7 @@ module Thincloud
         ::Resque::Server.set :show_exceptions, true
       end
 
-      initializer "thincloud.resque.mailer", after: "finisher_hook" do |app|
+      initializer "thincloud.resque.mailer", after: "finisher_hook" do
         excluded_envs = configuration.mailer_excluded_environments
 
         if configuration.mailer
