@@ -48,7 +48,7 @@ module Thincloud
         ::Resque::Server.set :show_exceptions, true
       end
 
-      initializer "thincloud.resque.mailer" do |app|
+      initializer "thincloud.resque.mailer", after: "finisher_hook" do |app|
         excluded_envs = configuration.mailer_excluded_environments
 
         if configuration.mailer
@@ -56,7 +56,15 @@ module Thincloud
 
           ::Resque::Mailer.excluded_environments = excluded_envs
 
-          ActionMailer::Base.send :include, ::Resque::Mailer
+          # Make sure that Resque::Mailer ends up at the correct place
+          # in the inheritance chain
+          ActiveSupport.on_load :action_mailer do
+            def self.inherited(subclass)
+              subclass.send :include, ::Resque::Mailer
+              super
+            end
+          end
+
         end
       end
 
