@@ -16,7 +16,7 @@ module Thincloud
         # procfile
         if File.exists?("Procfile")
           worker = "worker: bundle exec rake environment resque:work "
-          worker += "RAILS_ENV=$RAILS_ENV QUEUE=*"
+          worker << "RAILS_ENV=$RAILS_ENV QUEUE=*"
 
           append_file "Procfile", worker
         end
