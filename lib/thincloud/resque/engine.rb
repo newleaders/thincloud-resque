@@ -3,6 +3,11 @@ module Thincloud
     # Public: Thincloud Resque Engine
     class Engine < ::Rails::Engine
 
+      # convenience method for engine options / configuration
+      def configuration
+        Thincloud::Resque.configuration
+      end
+
       # initialize the configuration so it is available during rails init
       ActiveSupport.on_load :before_configuration do
         app_name  = Rails.application.class.name.deconstantize.underscore
@@ -15,11 +20,6 @@ module Thincloud
         config.thincloud.resque ||= Thincloud::Resque.configure do |c|
           c.redis_namespace = "resque:#{app_name}:#{rails_env}"
         end
-      end
-
-      # convenience method for engine options / configuration
-      def configuration
-        Thincloud::Resque.configuration
       end
 
       initializer "thincloud.resque.environment" do |app|
