@@ -139,18 +139,15 @@ require "thincloud/resque/capistrano"
 
 This adds a recipe called `thincloud:resque:link_assets` that will run after `deploy:update_code`. The recipe links the web assets from the Resque gem directory into your application's public directory.
 
-### Generator
+#### Workers
 
-The generator will:
-
-* Add a `worker` entry to the Procfile if found.
-
-
-Invoke the generator:
+You'll need Resque workers in order to have any jobs processed. We use `foreman` in our deployments to manage these. Simply add the following line to your `Procfile`:
 
 ```
-$ rails generate thincloud:resque
+worker: bundle exec rake environment resque:work RAILS_ENV=$RAILS_ENV QUEUE=*
 ```
+
+_This assumes you're running bundler and that you need the environment loaded for these workers. Modify to suit your needs._
 
 ## Contributing
 
