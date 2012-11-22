@@ -8,11 +8,6 @@ module Thincloud
 
       desc "Generates additional thincloud resque infrastructure"
       def resque
-        # deploy recipes
-        if File.exists?("Capfile") && File.exists?("lib/recipes")
-          copy_file "capistrano_recipe.rb", "lib/recipes/resque.rb"
-        end
-
         # procfile
         if File.exists?("Procfile")
           worker = "worker: bundle exec rake environment resque:work "

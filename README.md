@@ -129,11 +129,19 @@ end
 
 The Front End would be available at `http://yourapp/admin/resque`
 
+#### Capistrano
+
+To make Resque web assets available to the released application add the following line to your `deploy.rb` or `Capfile`:
+
+```ruby
+require "thincloud/resque/capistrano"
+```
+
+This adds a recipe called `thincloud:resque:link_assets` that will run after `deploy:update_code`. The recipe links the web assets from the Resque gem directory into your application's public directory.
+
 ### Generator
 
 The generator will:
-
-* Add a Capistrano recipe to make Resque web assets available to the released application. The recipe is added if both `Capfile` and `lib/recipes` are found.
 
 * Add a `worker` entry to the Procfile if found.
 
