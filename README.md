@@ -95,7 +95,21 @@ You can also access the configuration via the Rails configuration object. In fac
 
 _Note: Configuration values take precendence over environment variables._
 
-### Routes
+#### Mailers
+
+Resque::Mailer is enabled for environments included in the `mailer_environments` array. By default it will be enabled for all mailers in those environments. If you need to selectively enable it for specific mailers you can disable all environments:
+
+```ruby
+config.mailer_environments = []
+```
+
+and add the following line to those mailers:
+
+```ruby
+include Resque::Mailer
+```
+
+#### Routes
 
 Resque has a built-in Front End Sinatra server that provides access to monitor the server's status. To allow access to the Front End through your app you need to mount the engine in `config/routes.rb`:
 
