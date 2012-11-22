@@ -8,9 +8,10 @@ The Thincloud::Resque engine:
 
 * Manages all of the Resque (and Redis) dependencies for your application
 * Initializes the Redis connection and namespace for Resque
-* Configures the Resque Front End to use HTTP Basic authentication
+* Configures the Resque Front End (resque-web) to use HTTP Basic authentication
 * Optionally configures `resque_mailer`
-* Provides a generator to add a Capistrano recipe and a Procfile entry
+* Provides a Capistrano recipe to link resque-web assets during deployment
+
 
 ## Requirements
 
@@ -103,7 +104,7 @@ Resque::Mailer is enabled for environments included in the `mailer_environments`
 config.mailer_environments = []
 ```
 
-and add the following line to those mailers:
+and, for those mailers that need to background email, add the following line:
 
 ```ruby
 include Resque::Mailer
@@ -111,15 +112,14 @@ include Resque::Mailer
 
 #### Routes
 
-Resque has a built-in Front End Sinatra server that provides access to monitor the server's status. To allow access to the Front End through your app you need to mount the engine in `config/routes.rb`:
+Resque has a built-in Front End Sinatra (resque-web) server that provides access to monitor the Resque server's status. To allow access to the Front End through your app you need to mount the engine in `config/routes.rb`:
 
 ```ruby
 mount Thincloud::Resque::Engine => "/resque"
 ```
+=> `http://yourapp/resque`
 
-The Front End would be available at `http://yourapp/resque`
-
-Call this inside a namespace to give a nested route as well:
+Call this inside a namespace to create a nested route if needed:
 
 ```ruby
 namespace :admin do
@@ -127,11 +127,11 @@ namespace :admin do
 end
 ```
 
-The Front End would be available at `http://yourapp/admin/resque`
+=> `http://yourapp/admin/resque`
 
 #### Capistrano
 
-To make Resque web assets available to the released application add the following line to your `deploy.rb` or `Capfile`:
+To make resque-web assets available to the released application, add the following line to your `deploy.rb` or `Capfile`:
 
 ```ruby
 require "thincloud/resque/capistrano"
