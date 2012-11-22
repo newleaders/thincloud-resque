@@ -51,12 +51,8 @@ module Thincloud
       end
 
       initializer "thincloud.resque.mailer", after: "finisher_hook" do
-        excluded_envs = configuration.mailer_excluded_environments
-
-        if configuration.mailer
+        if configuration.mailer_environments.include?(Rails.env.to_sym)
           require "resque_mailer"
-
-          ::Resque::Mailer.excluded_environments = excluded_envs
 
           # Make sure that Resque::Mailer ends up at the correct place
           # in the inheritance chain

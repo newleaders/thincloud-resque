@@ -55,9 +55,8 @@ Thincloud::Resque configuration options are available to customize the engine be
   web_username      = "thincloud-resque"
   web_password      = "thincloud-resque"
 
-  # Option to configure Resque::Mailer
-  mailer            = true  # configures Resque::Mailer
-  mailer_excluded_environments = []
+  # Environment(s) where Resque::Mailer should be enabled
+  mailer_environments = [:production]
 ```
 #### Environment Variables
 
