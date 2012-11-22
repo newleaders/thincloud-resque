@@ -12,13 +12,12 @@ module Thincloud
 
     # Public: Configuration options for the Thincloud::Resque module
     class Configuration
-      attr_accessor :redis_url,
-                    :redis_namespace,
-                    :redis_driver,
-                    :web_username,
-                    :web_password,
-                    :mailer,
-                    :mailer_excluded_environments
+      attr_accessor :redis_url
+      attr_accessor :redis_namespace
+      attr_accessor :redis_driver
+      attr_accessor :web_username
+      attr_accessor :web_password
+      attr_accessor :mailer_environments
 
       def initialize
         url       = ENV["REDIS_URL"] || "unix:///tmp/redis.sock"
@@ -30,8 +29,7 @@ module Thincloud
         @redis_driver    ||= "ruby"
         @web_username    ||= username
         @web_password    ||= password
-        @mailer          ||= true
-        @mailer_excluded_environments ||= []
+        @mailer_environments ||= [:production]
       end
     end
   end

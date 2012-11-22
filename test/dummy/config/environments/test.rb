@@ -35,6 +35,7 @@ Dummy::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
+  config.thincloud.resque.mailer_environments = [:test, :production]
   config.thincloud.resque.redis_namespace = "dummy_app_namespace"
 
   if RUBY_ENGINE == "ruby"
