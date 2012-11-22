@@ -71,7 +71,7 @@ Several of the options will use environment variables when found.
 
 #### Configuration Block
 
-The `Thincloud::Resque` module accepts a `configure` block that accepts the same options listed above. This block can be put into an initializer or inside of a `config/environments` file.
+The `Thincloud::Resque` module accepts a `configure` block that takes the same options listed above. This block can be put into an initializer or inside of a `config/environments` file.
 
 ```ruby
   Thincloud::Resque.configure do |config|
