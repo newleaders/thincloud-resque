@@ -46,26 +46,26 @@ $ gem install thincloud-resque
 Thincloud::Resque configuration options are available to customize the engine behavior. Available options and their default values:
 
 ```ruby
-  # Redis connection details
-  redis_url         = "unix:///tmp/redis.sock"
-  redis_namespace   = "resque:APP_NAME:RAILS_ENV"
-  redis_driver      = "ruby"  # make sure to include the gem for your driver
+# Redis connection details
+redis_url         = "unix:///tmp/redis.sock"
+redis_namespace   = "resque:APP_NAME:RAILS_ENV"
+redis_driver      = "ruby"  # make sure to include the gem for your driver
 
-  # Authenticaiton details used for the Resque Front End
-  web_username      = "thincloud-resque"
-  web_password      = "thincloud-resque"
+# Authenticaiton details used for the Resque Front End
+web_username      = "thincloud-resque"
+web_password      = "thincloud-resque"
 
-  # Environment(s) where Resque::Mailer should be enabled
-  mailer_environments = [:production]
+# Environment(s) where Resque::Mailer should be enabled
+mailer_environments = [:production]
 ```
 #### Environment Variables
 
 Several of the options will use environment variables when found.
 
 ```
-  redis_url    -> ENV["REDIS_URL"]
-  web_username -> ENV["RESQUE_WEB_USERNAME"]
-  web_password -> ENV["RESQUE_WEB_PASSWORD"]
+redis_url    -> ENV["REDIS_URL"]
+web_username -> ENV["RESQUE_WEB_USERNAME"]
+web_password -> ENV["RESQUE_WEB_PASSWORD"]
 ```
 
 #### Configuration Block
@@ -73,12 +73,12 @@ Several of the options will use environment variables when found.
 The `Thincloud::Resque` module accepts a `configure` block that takes the same options listed above. This block can be put into an initializer or inside of a `config/environments` file.
 
 ```ruby
-  Thincloud::Resque.configure do |config|
-    config.redis_url       = "unix:///tmp/my_redis.sock"
-    config.redis_namespace = "my_redis_namespace"
-    config.redis_driver    = "hiredis"
-    # ...
-  end
+Thincloud::Resque.configure do |config|
+  config.redis_url       = "unix:///tmp/my_redis.sock"
+  config.redis_namespace = "my_redis_namespace"
+  config.redis_driver    = "hiredis"
+  # ...
+end
 ```
 
 #### Rails Configuration
@@ -86,11 +86,11 @@ The `Thincloud::Resque` module accepts a `configure` block that takes the same o
 You can also access the configuration via the Rails configuration object. In fact, the engine uses the Rails config as storage when the block syntax is used. The `Thincloud::Resque::Configuration` object is made available under `config.thincloud.resque`. You can access this configuration in `config/application.rb` or in your `config/environments` files.
 
 ```ruby
-  # ...
-  config.thincloud.resque.redis_url       = "unix:///tmp/redis.sock"
-  config.thincloud.resque.redis_namespace = "my_config_namespace"
-  config.thincloud.resque.redis_driver    = "hiredis"
-  #...
+# ...
+config.thincloud.resque.redis_url       = "unix:///tmp/redis.sock"
+config.thincloud.resque.redis_namespace = "my_config_namespace"
+config.thincloud.resque.redis_driver    = "hiredis"
+#...
 ```
 
 _Note: Configuration values take precendence over environment variables._
