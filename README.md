@@ -8,7 +8,7 @@ The Thincloud::Resque engine:
 
 * Manages all of the Resque (and Redis) dependencies for your application
 * Initializes the Redis connection and namespace for Resque
-* Configures the Resque Front End to use HTTP Basic authentication at `/admin/resque`
+* Configures the Resque Front End to use HTTP Basic authentication
 * Optionally configures `resque_mailer`
 * Provides a generator to add a Capistrano recipe and a Procfile entry
 
@@ -95,6 +95,26 @@ You can also access the configuration via the Rails configuration object. In fac
 ```
 
 _Note: Configuration values take precendence over environment variables._
+
+### Routes
+
+Resque has a built-in Front End Sinatra server that provides access to monitor the server's status. To allow access to the Front End through your app you need to mount the engine in `config/routes.rb`:
+
+```ruby
+mount Thincloud::Resque::Engine => "/resque"
+```
+
+The Front End would be available at `http://yourapp/resque`
+
+Call this inside a namespace to give a nested route as well:
+
+```ruby
+namespace :admin do
+  mount Thincloud::Resque::Engine => "/resque"
+end
+```
+
+The Front End would be available at `http://yourapp/admin/resque`
 
 ### Generator
 
