@@ -22,6 +22,8 @@ module Thincloud
         end
       end
 
+      rake_tasks { require "resque/tasks" }
+
       initializer "thincloud.resque.environment" do
         require "redis"
         require "resque"
@@ -53,6 +55,10 @@ module Thincloud
       initializer "thincloud.resque.mailer", after: "finisher_hook" do
         if configuration.mailer_environments.include?(Rails.env.to_sym)
           require "resque_mailer"
+
+          # We manage the environments by only including Resque::Mailer for
+          # explicit environments (#mailer_environments)
+          ::Resque::Mailer.excluded_environments = []
 
           # Make sure that Resque::Mailer ends up at the correct place
           # in the inheritance chain
