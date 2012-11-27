@@ -22,6 +22,8 @@ module Thincloud
         end
       end
 
+      rake_tasks { require "resque/tasks" }
+
       initializer "thincloud.resque.environment" do
         require "redis"
         require "resque"
