@@ -56,6 +56,10 @@ module Thincloud
         if configuration.mailer_environments.include?(Rails.env.to_sym)
           require "resque_mailer"
 
+          # We manage the environments by only including Resque::Mailer for
+          # explicit environments (#mailer_environments)
+          ::Resque::Mailer.excluded_environments = []
+
           # Make sure that Resque::Mailer ends up at the correct place
           # in the inheritance chain
           ActiveSupport.on_load :action_mailer do
