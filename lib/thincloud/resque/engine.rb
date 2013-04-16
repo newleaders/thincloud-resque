@@ -44,8 +44,8 @@ module Thincloud
 
         # use http basic auth for resque-web
         ::Resque::Server.use ::Rack::Auth::Basic do |username, password|
-          username = configuration.web_username
-          password = configuration.web_password
+          username == configuration.web_username &&
+          password == configuration.web_password
         end
 
         ::Resque::Server.set :show_exceptions, true
