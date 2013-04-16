@@ -26,8 +26,15 @@ module Thincloud
       describe "with configure block" do
         before do
           Thincloud::Resque.configure do |c|
+            @old_username = c.web_username
             c.web_username = "webuser"
             c.mailer_environments = [:staging]
+          end
+        end
+
+        after do
+          Thincloud::Resque.configure do |c|
+            c.web_username = @old_username
           end
         end
 
