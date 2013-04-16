@@ -1,3 +1,5 @@
+require "rails"
+
 module Thincloud
   module Resque
     # Public: Thincloud Resque Engine
