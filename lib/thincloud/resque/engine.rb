@@ -66,8 +66,11 @@ module Thincloud
           # in the inheritance chain
           ActiveSupport.on_load :action_mailer do
             def self.inherited(subclass)
-              subclass.send :include, ::Resque::Mailer
-              super
+              # Devise::Mailer does not play nicely with Resque::Mailer
+              unless subclass.name == "Devise::Mailer"
+                subclass.send :include, ::Resque::Mailer
+                super
+              end
             end
           end
 
