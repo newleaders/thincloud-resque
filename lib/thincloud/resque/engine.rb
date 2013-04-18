@@ -69,8 +69,8 @@ module Thincloud
               # Devise::Mailer does not play nicely with Resque::Mailer
               unless subclass.name == "Devise::Mailer"
                 subclass.send :include, ::Resque::Mailer
-                super
               end
+              super
             end
           end
 
