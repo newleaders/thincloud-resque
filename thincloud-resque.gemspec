@@ -17,11 +17,11 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 3.2.8"
-  s.add_dependency "redis", "~> 3.0.1"
-  s.add_dependency "resque", "~> 1.23.0"
-  s.add_dependency "resque-cleaner", "~> 0.2.9"
-  s.add_dependency "resque_mailer", "~> 2.1.0"
+  s.add_dependency "rails", "~> 4.0.0"
+  s.add_dependency "redis", "~> 3.0.4"
+  s.add_dependency "resque", "~> 1.25.1"
+  s.add_dependency "resque-cleaner", "~> 0.2.11"
+  s.add_dependency "resque_mailer", "~> 2.2.4"
 
   s.add_development_dependency "thincloud-test"
 end
