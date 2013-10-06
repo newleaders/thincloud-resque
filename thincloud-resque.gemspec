@@ -22,6 +22,7 @@ Gem::Specification.new do |s|
   s.add_dependency "resque", "~> 1.25.1"
   s.add_dependency "resque-cleaner", "~> 0.2.11"
   s.add_dependency "resque_mailer", "~> 2.2.4"
+  s.add_dependency "hiredis", "~> 0.4.5"
 
   s.add_development_dependency "thincloud-test"
 end
