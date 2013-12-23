@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 4.0.0"
+  s.add_dependency "rails", "~> 4.1.0.beta"
   s.add_dependency "redis", "~> 3.0.4"
   s.add_dependency "resque", "~> 1.25.1"
   s.add_dependency "resque-cleaner", "~> 0.2.11"
